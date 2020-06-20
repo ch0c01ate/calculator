@@ -2,6 +2,14 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.routing import Mount
+from dbsetup import expressions
+from pydantic import BaseModel
+
+
+class ExpressionRequest(BaseModel):
+    expression: str
+    result: str
+
 
 routes = [Mount('/static', StaticFiles(directory='static'), name='static')]
 
@@ -13,3 +21,30 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def calculator(request: Request):
     return templates.TemplateResponse("calculator.html", {"request": request})
+
+
+@app.get("/history")
+def history(request: Request):
+    history = expressions.find({})
+
+    return templates.TemplateResponse("history.html", {
+        "request": request,
+        "history": history
+    })
+
+
+@app.post("/")
+def add_expression(expression_request: ExpressionRequest):
+    new_expression = {
+        "expression": expression_request.expression,
+        "result": expression_request.result
+    }
+
+    expressions.insert_one(new_expression)
+    return {"status": "200", "message": "Expression added to db"}
+
+
+@app.delete("/history")
+def delete_history():
+    expressions.delete_many({})
+    return {"status": "200", "message": "History cleared"}

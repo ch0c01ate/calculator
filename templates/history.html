@@ -1,0 +1,41 @@
+{% extends 'template.html' %}
+
+{% block staticfiles %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script>
+        function clearHistory() {
+            $.ajax({
+                url: '/history',
+                type: 'DELETE',
+            });
+
+            window.location.reload();
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="ui container" style="padding: 20px;"">
+        <h2 class="ui header">History</h2>
+    
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Expression</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exp in history %}
+                <tr>
+                    <td>{{ exp.expression }}</td>
+                    <td>{{ exp.result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button class="ui button primary" onclick="window.location.href = '/'">Back to calculator</button>
+        <button class="ui button primary" onclick="clearHistory()">Clear History</button>
+    </div>
+{% endblock  %}

@@ -1,25 +1,33 @@
 {% extends 'template.html' %}
 
+{% block staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/calculator.css') }}">
+    <script src="{{ url_for('static', path='/js/calculator.js') }}"></script>
+{% endblock  %}
+
 {% block content %}
-    <form class="calculator" name="calc">
-        <input class="value" type="text" name="txt" readonly="">
-        <span class="num clear" onclick="document.calc.txt.value = ''" id="c">C</span>
-        <span class="num" onclick="document.calc.txt.value += '/'" id="/">/</span>
-        <span class="num" onclick="document.calc.txt.value += '*'" id="*">*</span>
-        <span class="num" onclick="clickButton('7')" id="7">7</span>
-        <span class="num" onclick="clickButton('8')" id="8">8</span>
-        <span class="num" onclick="clickButton('9')" id="9">9</span>
-        <span class="num" onclick="document.calc.txt.value += '-'" id="-">-</span>
-        <span class="num" onclick="clickButton('4')" id="4">4</span>
-        <span class="num" onclick="clickButton('5')" id="5">5</span>
-        <span class="num" onclick="clickButton('6')" id="6">6</span>
-        <span class="num plus" onclick="document.calc.txt.value += '+'" id="+">+</span>
-        <span class="num" onclick="clickButton('1')" id="1">1</span>
-        <span class="num" onclick="clickButton('2')" id="2">2</span>
-        <span class="num" onclick="clickButton('3')" id="3">3</span>
-        <span class="num" onclick="clickButton('0')" id="0">0</span> 
-        <span class="num" onclick="document.calc.txt.value += '00'" id="00">00</span>
-        <span class="num" onclick="document.calc.txt.value += '.'" id=".">.</span>
-        <span class="num equal" onclick="document.calc.txt.value = calculate(calc.txt.value)" id="=">=</span>
-    </form>
+    <div class="calculatorContainer">
+        <form class="calculator" name="calc">
+            <input class="value" type="text" name="txt" readonly="">
+            <span class="num clear" onclick="document.calc.txt.value = ''" id="c">C</span>
+            <span class="num history" onclick="window.location.href = '/history'">History</span>
+            <span class="num" onclick="clickSign('/')" id="/">/</span>
+            <span class="num" onclick="clickSign('*')" id="*">*</span>
+            <span class="num" onclick="clickNumber('7')" id="7">7</span>
+            <span class="num" onclick="clickNumber('8')" id="8">8</span>
+            <span class="num" onclick="clickNumber('9')" id="9">9</span>
+            <span class="num" onclick="clickSign('-')" id="-">-</span>
+            <span class="num" onclick="clickNumber('4')" id="4">4</span>
+            <span class="num" onclick="clickNumber('5')" id="5">5</span>
+            <span class="num" onclick="clickNumber('6')" id="6">6</span>
+            <span class="num plus" onclick="clickSign('+')" id="+">+</span>
+            <span class="num" onclick="clickNumber('1')" id="1">1</span>
+            <span class="num" onclick="clickNumber('2')" id="2">2</span>
+            <span class="num" onclick="clickNumber('3')" id="3">3</span>
+            <span class="num" onclick="clickNumber('0')" id="0">0</span> 
+            <span class="num" onclick="clickNumber('00')" id="00">00</span>
+            <span class="num" onclick="document.calc.txt.value += '.'" id=".">.</span>
+            <span class="num equal" onclick="document.calc.txt.value = calculate(calc.txt.value)" id="=">=</span>
+        </form>
+    </div>
 {% endblock %}

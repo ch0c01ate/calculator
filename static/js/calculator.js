@@ -16,8 +16,9 @@ document.onkeypress = function (e) {
 function calculate(expr) {
     isEqualed = true;
     try {
-        return (exprIsValid(expr) ? eval(expr) : "Expression is invalid!");
+        return (exprIsValid(expr) ? evaluate(expr) : "Expression is invalid!");
     } catch (error) {
+
         return "Expression is invalid!";
     }
 }
@@ -26,7 +27,24 @@ function exprIsValid(expr) {
     return validation.test(expr);
 }
 
-function clickButton(key) {
+function clickNumber(key) {
     isEqualed ? document.calc.txt.value = key : document.calc.txt.value += key;
     isEqualed = false;
+}
+
+function clickSign(key) {
+    isEqualed = false;
+    document.calc.txt.value += key;
+}
+
+function evaluate(expr) {
+    const res = eval(expr);
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ "expression": expr, "result": String(res) }),
+        dataType: 'json'
+    });
+    return res;
 }
