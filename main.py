@@ -3,13 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.routing import Mount
 from dbsetup import expressions
-from pydantic import BaseModel
-
-
-class ExpressionRequest(BaseModel):
-    expression: str
-    result: str
-
+from requests import ExpressionRequest
 
 routes = [Mount('/static', StaticFiles(directory='static'), name='static')]
 

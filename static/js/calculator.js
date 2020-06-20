@@ -6,7 +6,6 @@ document.onkeypress = function (e) {
     keyPressed = String.fromCharCode(e.which);
     console.log(keyPressed);
     if (allowedKeys.includes(keyPressed)) {
-        console.log("HERE");
         document.getElementById(keyPressed).click(function (event) {
             event.stopPropagation();
         });
