@@ -1,5 +1,6 @@
 fastapi
 uvicorn
+numexpr
 jinja2
 aiofiles
 pymongo

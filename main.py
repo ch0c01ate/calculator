@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.routing import Mount
 from dbsetup import expressions
 from requests import ExpressionRequest
+from calculator import calculate
 
 routes = [Mount('/static', StaticFiles(directory='static'), name='static')]
 
@@ -29,13 +30,21 @@ def history(request: Request):
 
 @app.post("/")
 def add_expression(expression_request: ExpressionRequest):
+
+    res = calculate(expression_request.expression)
+
     new_expression = {
         "expression": expression_request.expression,
-        "result": expression_request.result
+        "result": res
     }
 
     expressions.insert_one(new_expression)
-    return {"status": "200", "message": "Expression added to db"}
+
+    return {
+        "status": "200",
+        "message": "Expression added to db",
+        "result": str(res)
+    }
 
 
 @app.delete("/history")
